@@ -1,6 +1,8 @@
 
 using CityInfoAPI;
+using CityInfoAPI.DBContexts;
 using CityInfoAPI.Services;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -33,6 +35,9 @@ builder.Services.AddSwaggerGen();
 #endif
 
 builder.Services.AddSingleton<CitiesDataStore>();
+
+builder.Services.AddDbContext<CityInfoContext>(dbContextOptions =>
+    dbContextOptions.UseSqlServer(builder.Configuration["ConnectionString:CityInfoDbConnectionString"]));
 
 var app = builder.Build();
 
